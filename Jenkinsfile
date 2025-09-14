@@ -36,21 +36,6 @@ pipeline {
             }
         }
 
-        stage('Select Terraform Workspace') {
-            steps {
-                script {
-                    // Use separate workspaces for 'dev' and 'main' branches to isolate states.
-                    if (env.BRANCH_NAME == 'dev') {
-                        echo "Selecting 'dev' workspace for test environment."
-                        sh 'terraform workspace select dev || terraform workspace new dev'
-                    } else if (env.BRANCH_NAME == 'main') {
-                        echo "Selecting 'default' workspace for production environment."
-                        sh 'terraform workspace select default'
-                    }
-                }
-            }
-        }
-
         stage('Terraform Validate & Format') {
             steps {
                 // Validates the syntax of the Terraform configuration.
